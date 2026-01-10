@@ -138,4 +138,7 @@ async def on_ready():
                 print("User was already registred!")
     db.commit()
     print("Бот готов!")
-bot.run("MTQ1ODE2OTQyNDE0OTIxNzM3Mg.Gl5m0h.dB9KOtcCq64N7107UORo8S2dF6idqJNVZDWixo")
+file = open("env.env","r")
+token = file.readline()
+file.close()
+bot.run(token)
