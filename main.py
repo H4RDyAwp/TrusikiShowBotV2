@@ -209,7 +209,7 @@ async def setcurrency(inter:disnake.AppCommandInteraction,string:str):
         await inter.send(embed=disnake.Embed(title="✅",description="Новая валюта : "+string))
     else:
         await inter.send(embed=disnake.Embed(title="❌",description="У вас недостаточно прав."))
-bot.slash_command(name = "установить-роль-модератора")
+@bot.slash_command(name = "установить-роль-модератора")
 async def setmodrule(inter:disnake.AppCommandInteraction,role:disnake.Role):
     if inter.guild.owner == inter.user:
         cursor.execute("UPDATE Servers SET modroleid = ? WHERE guildid = ?", (role.id, inter.guild_id))
