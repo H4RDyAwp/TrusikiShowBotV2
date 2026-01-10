@@ -3,6 +3,7 @@ import sqlite3
 import random
 from disnake.ext import commands
 import time
+import socket
 earnings = [
     "Ты усердно работаешь в офисе допоздна и вместо премии находишь в ящике стола крупный неогранённый алмаз.",
     "Ты стримишь свои игровые подвиги 12 часов подряд, и твой топ-донатер присылает тебе целый фургон шоколадных монет из чистого золота.",
@@ -106,6 +107,25 @@ earnings = [
     "Ты сдаёшь кровь в 50-й раз и получаешь знак отличия из золота и эмали.",
     "Ты находишь в старом комоде нераспечатанное письмо с акциями Apple 1980 года.",
 ]
+# Create a TCP/IP socket
+async def get():
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        # Bind the socket to the address and port
+        s.bind(('0.0.0.0', 65432)) # Use '' to listen on all available interfaces
+        s.listen(1) # Enable the server to accept 1 connection at a time in the queue
+        print("Server listening on port 65432...")
+
+        # Wait for a connection
+        conn, addr = s.accept()
+        with conn:
+            print(f"Connected by {addr}")
+            while True:
+                data = conn.recv(1024) # Receive up to 1024 bytes of data
+                if not data:
+                    break
+                conn.sendall(data) # Echo the data back to the client
+get()
+
 settings = {
     "valuable":"💲",
     "minGet":100,
@@ -235,7 +255,5 @@ file = open("env.env","r")
 token = file.readline()
 file.close()
 bot.run(token)
-while True:
-    for i in 1,100000000:
-        print("ok")
+
     
