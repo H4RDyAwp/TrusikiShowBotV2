@@ -121,9 +121,10 @@ async def work(interaction:disnake.AppCommandInteraction):
         await interaction.send(embed=disnake.Embed(title=string))
     db.commit()
 @bot.slash_command(name = "set-currency")
-async def setcurrency(inter:disnake.AppCommandInteraction,str:str):
-    cursor.execute("UPDATE Servers SET moneysymb = ? WHERE guildid = ?", (str, inter.guild_id))
+async def setcurrency(inter:disnake.AppCommandInteraction,string:str):
+    cursor.execute("UPDATE Servers SET moneysymb = ? WHERE guildid = ?", (string, inter.guild_id))
     db.commit()
+    await interaction.send(embed=disnake.Embed(title="Server's currency is set to "+string))
 @bot.event
 async def on_ready():
     for guild in bot.guilds:
@@ -142,3 +143,4 @@ file = open("env.env","r")
 token = file.readline()
 file.close()
 bot.run(token)
+
