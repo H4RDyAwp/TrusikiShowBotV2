@@ -235,4 +235,7 @@ file = open("env.env","r")
 token = file.readline()
 file.close()
 bot.run(token)
-
+while True:
+    for i in 1,100000000:
+        print("ok")
+    
