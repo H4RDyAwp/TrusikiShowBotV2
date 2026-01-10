@@ -108,23 +108,26 @@ async def work(interaction:disnake.AppCommandInteraction):
     if interaction.user.name in worked.keys() and time.time() - worked[interaction.user.name] >= settings["cooldownWork"]:
         canwork = True
     elif interaction.user.name in worked.keys() and not time.time() - worked[interaction.user.name] >= settings["cooldownWork"]:
-        await interaction.send("You cant work now! Please wait for " + str(round(settings["cooldownWork"] - (time.time() - worked[interaction.user.name]),1)) + " before using /work again!")
+        await interaction.send(embed=disnake.Embed(title="❌",description="You cant work now! Please wait for " + str(round(settings["cooldownWork"] - (time.time() - worked[interaction.user.name]),1)) + " before using /work again!"))
     else:
         canwork = True
     if canwork:
         chosen = random.choice(earnings)
         money = random.randint(settings["minGet"],settings["maxGet"])
-        string = chosen + " You get : " + str(money) + getguild(interaction.guild_id)[2]
+        string = "**SUCCES**\n" + chosen + " You get : " + str(money) + getguild(interaction.guild_id)[2]
         print(string)
         worked[interaction.user.name] = time.time()
         cursor.execute("UPDATE Users SET money = money + ? WHERE username = ?", (money, interaction.user.name))
-        await interaction.send(embed=disnake.Embed(title=string))
+        await interaction.send(embed=disnake.Embed(description=string,title="✅"))
     db.commit()
 @bot.slash_command(name = "set-currency")
 async def setcurrency(inter:disnake.AppCommandInteraction,string:str):
-    cursor.execute("UPDATE Servers SET moneysymb = ? WHERE guildid = ?", (string, inter.guild_id))
-    db.commit()
-    await interaction.send(embed=disnake.Embed(title="Server's currency is set to "+string))
+    if inter.user.get_role(getguild(inter.guild_id)[3]):
+        cursor.execute("UPDATE Servers SET moneysymb = ? WHERE guildid = ?", (string, inter.guild_id))
+        db.commit()
+        await inter.send(embed=disnake.Embed(title="Server's currency is set to "+string))
+    else:
+        await inter.send(embed=disnake.Embed(title="❌",description="Not enough permission"))
 @bot.event
 async def on_ready():
     for guild in bot.guilds:
