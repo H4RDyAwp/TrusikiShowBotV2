@@ -1,4 +1,4 @@
 disnake
-sqlite3
+sqlite
 random
 time
