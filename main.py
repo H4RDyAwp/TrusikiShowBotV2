@@ -219,7 +219,7 @@ async def setcurrency(inter:disnake.AppCommandInteraction,string:str):
         await inter.send(embed=disnake.Embed(title="❌",description="У вас недостаточно прав."))
 @bot.slash_command(name = "баланс")
 async def balance(interaction):
-     await interaction.send("Текущий баланс : " + str(cursor.execute("SELECT * FROM Users WHERE username = ?",(interaction.user.name,)).fetchone()[2]) + getguild(interaction.guild_id)[2] + " на руках и " + str(cursor.execute("SELECT * FROM Users WHERE username = ?",(interaction.user.name,)).fetchone()[3]) + getguild(interaction.guild_id)[2] + " в банке."))
+     await interaction.send("Текущий баланс : " + str(cursor.execute("SELECT * FROM Users WHERE username = ?",(interaction.user.name,)).fetchone()[2]) + getguild(interaction.guild_id)[2] + " на руках и " + str(cursor.execute("SELECT * FROM Users WHERE username = ?",(interaction.user.name,)).fetchone()[3]) + getguild(interaction.guild_id)[2] + " в банке.")
 @bot.slash_command(name = "установить-роль-модератора")
 async def setmodrule(inter:disnake.AppCommandInteraction,role:disnake.Role):
     if inter.guild.owner == inter.user:
