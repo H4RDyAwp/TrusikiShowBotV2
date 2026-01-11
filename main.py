@@ -144,6 +144,7 @@ maxget INTEGER,
 cooldownwork INTEGER
 )
 ''')
+
 try:
     cursor.execute("CREATE UNIQUE INDEX ids ON Users (id)")
 except:
@@ -259,4 +260,5 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 conn.sendall(data) # Echo the data back to the client
 
         
+
 
