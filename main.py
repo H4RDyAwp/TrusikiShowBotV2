@@ -4,6 +4,7 @@ import random
 from disnake.ext import commands
 import time
 import socket
+import keep_alive
 earnings = [
     "Ты усердно работаешь в офисе допоздна и вместо премии находишь в ящике стола крупный неогранённый алмаз.",
     "Ты стримишь свои игровые подвиги 12 часов подряд, и твой топ-донатер присылает тебе целый фургон шоколадных монет из чистого золота.",
@@ -121,7 +122,7 @@ settings = {
     "modRoleId":1459555929593876661
 }
 worked = {}
-
+keep_alive.keep_alive()
 
 db = sqlite3.connect("TrusikiShowDatabase.sqlite")
 cursor = db.cursor()
@@ -260,5 +261,6 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 conn.sendall(data) # Echo the data back to the client
 
         
+
 
 
