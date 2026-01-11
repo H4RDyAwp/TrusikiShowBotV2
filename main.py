@@ -217,6 +217,9 @@ async def setcurrency(inter:disnake.AppCommandInteraction,string:str):
         await inter.send(embed=disnake.Embed(title="✅",description="Новая валюта : "+string))
     else:
         await inter.send(embed=disnake.Embed(title="❌",description="У вас недостаточно прав."))
+@bot.slash_command(name = "баланс")
+async def balance(interaction):
+     await interaction.send("Текущий баланс : " + str(cursor.execute("SELECT * FROM Users WHERE username = ?",(interaction.user.name,)).fetchone()[2]) + getguild(interaction.guild_id)[2] + " на руках и " + str(cursor.execute("SELECT * FROM Users WHERE username = ?",(interaction.user.name,)).fetchone()[3]) + getguild(interaction.guild_id)[2] + " в банке."))
 @bot.slash_command(name = "установить-роль-модератора")
 async def setmodrule(inter:disnake.AppCommandInteraction,role:disnake.Role):
     if inter.guild.owner == inter.user:
@@ -243,22 +246,6 @@ file = open("env.env","r")
 token = file.readline()
 file.close()
 bot.run(token)
-with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-    # Bind the socket to the address and port
-    s.bind(('0.0.0.0', 10000)) # Use '' to listen on all available interfaces
-    while True:
-        s.listen(1) # Enable the server to accept 1 connection at a time in the queue
-        print("Server listening on port 10000..")
-
-            # Wait for a connection
-        conn, addr = s.accept()
-        with conn:
-            print(f"Connected by {addr}")
-            while True:
-                data = conn.recv(1024) # Receive up to 1024 bytes of data
-                if not data:
-                    break
-                conn.sendall(data) # Echo the data back to the client
 
         
 
